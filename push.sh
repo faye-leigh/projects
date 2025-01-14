@@ -4,7 +4,7 @@
 kitty sh -c '
     echo -e "Pushing changes:\n" 
      
-    git add ./. 
+    git add . 
     git commit -a -m "update from laptop" 
     git push
 
