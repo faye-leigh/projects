@@ -1,7 +1,8 @@
+from gui import __create_main_win
 
 def main():
     # create the main window
-    root = create_main_window()
+    root = __create_main_win()
     # start the main loop
     root.mainloop()
 

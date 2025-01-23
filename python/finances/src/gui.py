@@ -1,11 +1,14 @@
 # Libraries
 from tkinter import *
+from tkinter import ttk, filedialog
 from tkcalendar import DateEntry
+from tkinter import ttk
 import os
 # Config file
 from config import *
 # Custom classes
 from data import *
+from import_csv import *
 
 
 def init():
@@ -45,85 +48,81 @@ def __create_auto_win(parent: Tk):
     card_var.set('Select Account')          # Default value
     card_menu = OptionMenu(auto, card_var, *CARDS)
     card_menu.grid(row=1, column=1, columnspan=2)
+    file_path = ''
+
+    # Function to select CSV file
+    def select_csv():
+        nonlocal file_path
+        file_path = filedialog.askopenfilename(parent=auto, filetypes=[('CSV Files', '*.csv'), ('CSV Files', '*.CSV')])
+        print(file_path)
 
     # Button to import CSV file
-    btn_import = Button(auto, text='Import CSV', width=15, command=lambda: import_csv(auto))
+    btn_import = Button(auto, text='Select CSV', width=15, command=select_csv)
     btn_import.grid(row=2, column=1, columnspan=2)
 
     # Back and Submit buttons
     btn_back = Button(auto, text='Back', width=15, command=auto.destroy)
     btn_back.grid(row=4, column=1)
 
-    btn_submit = Button(auto, text='Submit', width=15)
+    btn_submit = Button(auto, text='Submit', width=15, command=lambda: import_csv(parent, file_path))
     btn_submit.grid(row=4, column=2)
 
 def __create_manual_win(parent: Tk):
     """Create the manual entry window."""
     def save_manual_entry():
-            date = entry_date.get()
-            descr = entry_descr.get()
-            amount = entry_amnt.get()
-            cat = menu_cat.get()
-            acct = menu_acct.get()
-            faye = check_faye.get()
-            oliver = check_oliver.get()
-            monthly = check_monthly.get()
-            annual = check_annual.get()
-            if date and descr and amount and cat != 'Select Category' and acct != "Select Account" and (faye or oliver):
-                append_data(str.lower(acct), list(date, descr, amount,))
-                # Show success message
-                label_msg.config(text="Data saved successfully")
-                # Clear the input fields except bank and date
-                entry_descr.delete(0, END)
-                entry_amnt.delete(0, END)
-                menu_cat.delete(0, END) 
-                # Clear any previous error message
-                label_msg.config(text="") 
-            else:
-                label_msg.config(text="Required field(s) missing")
+        date = entry_date.get()
+        descr = entry_descr.get()
+        amount = entry_amnt.get()
+        cat = var_cat.get()
+        acct = var_acct.get()
+        faye = var_faye.get()
+        oliver = var_oliver.get()
+        monthly = var_monthly.get()
+        annual = var_annual.get()
+        # Add your save logic here
 
     manual = Toplevel(parent)                 # create a new window
-    manual.title('Manual Entry')            # set the title of the window
+    manual.title('Manual Entry')              # set the title of the window
 
     # Setup grid layout
-    __geometry(manual, 9, 5)         # set the geometry and grid layout
+    __geometry(manual, 9, 5)                  # set the geometry and grid layout
 
     # Date entry
     label_date = Label(manual, text='Date*', width=15, anchor='w') 
     label_date.grid(row=1, column=1)
     # date picker
-    entry_date = DateEntry(manual, width=15, background='darkgreen', foreground='lightgray', borderwidth=2)
+    entry_date = DateEntry(manual, width=15, date_pattern='yyyy-mm-dd')
     entry_date.grid(row=1, column=2)
 
     # Description entry
     label_descr = Label(manual, text='Description*', width=15, anchor='w')
     label_descr.grid(row=2, column=1)
-    entry_descr = Entry(manual,width=15)
+    entry_descr = Entry(manual, width=15)
     entry_descr.grid(row=2, column=2)
 
     # Amount entry
     label_amnt = Label(manual, text='Amount*', width=15, anchor='w')
     label_amnt.grid(row=3, column=1)
-    entry_amnt = Entry(manual,width=15)
+    entry_amnt = Entry(manual, width=15)
     entry_amnt.grid(row=3, column=2)
 
     # Category entry
     label_cat = Label(manual, text='Category*', width=15, anchor='w')
     label_cat.grid(row=4, column=1)
-    # dropdown menu for category
+    # dropdown menu for category using Combobox
     var_cat = StringVar(manual)
-    var_cat.set('Select Category')          # Default value
-    menu_cat = OptionMenu(manual, var_cat, 'Food', 'Rent', 'Utilities', 'Entertainment', 'Other')
-    menu_cat.grid(row=4, column=2)
+    combo_cat = ttk.Combobox(manual, textvariable=var_cat, values=CATEGORIES, state='readonly', width=15)
+    combo_cat.set('Select Category')  # Default value
+    combo_cat.grid(row=4, column=2)
 
     # Account entry
     label_acct = Label(manual, text='Account*', width=15, anchor='w')
     label_acct.grid(row=5, column=1)
-    # dropdown menu for account
+    # dropdown menu for account using Combobox
     var_acct = StringVar(manual)
-    var_acct.set('Select Account')          # Default value
-    menu_acct = OptionMenu(manual, var_acct, *CARDS)
-    menu_acct.grid(row=5, column=2)
+    combo_acct = ttk.Combobox(manual, textvariable=var_acct, values=CARDS, state='readonly', width=15)
+    combo_acct.set('Select Account')  # Default value
+    combo_acct.grid(row=5, column=2)
 
     # Faye and Oliver checkboxes
     var_faye = IntVar()
@@ -153,7 +152,7 @@ def __create_manual_win(parent: Tk):
     btn_back = Button(manual, text='Back', width=10, command=manual.destroy)
     btn_back.grid(row=7, column=1, sticky='e')
 
-    btn_submit = Button(manual, text='Submit', width=10)
+    btn_submit = Button(manual, text='Submit', width=10, command=save_manual_entry)
     btn_submit.grid(row=7, column=3, columnspan=2, sticky='w')
 
     return manual
@@ -184,6 +183,3 @@ def __geometry(window: Tk, rows: int, cols: int) -> Tk:
     for i in range(cols):
         window.grid_columnconfigure(i, weight=0, minsize=32)
     return window
-
-if __name__ == '__main__':
-    init()

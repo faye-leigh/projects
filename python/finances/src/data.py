@@ -1,13 +1,16 @@
-from config import *
-from csv import writer
+# Libraries
+from csv import *
+from tkcalendar import DateEntry
 from tkinter import *
-from tkinter import filedialog
-from os import path, makedirs, listdir
+from tkinter import ttk, filedialog
+from os import *
+# Config file
+from config import *
+# Custom classes
+from data import *
+from import_csv import *
 
-CSV_DIR = 'bin'
-
-def import_csv(parent: Tk):
-    file_path = filedialog.askopenfilename(parent=parent, filetypes=[('CSV Files', '*.csv')])
+CSV_DIR = 'bin/data'
 
 def create_csv(file_path: str):
     """
@@ -43,7 +46,7 @@ def append_data(account: str, data: list):
         csv_writer = writer(csv)
         csv_writer.writerow(data)
 
-def get_csv_files():
+def __get_csv_files():
     """"""
     csv_files = list()
     for file_name in listdir(path.join(path.dirname(__file__), CSV_DIR)):
@@ -53,7 +56,7 @@ def get_csv_files():
 
     return csv_files
 
-def fix_data(parent: Tk):
+def __fix_data(parent: Tk):
     with parent:
         print()
 
