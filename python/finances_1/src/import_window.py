@@ -1,5 +1,9 @@
 from tkinter import Tk, Label, Button, StringVar, OptionMenu, filedialog, Toplevel, Frame
-from config import ACCOUNTS
+import yaml
+
+with open('config.yml', 'r') as file:
+    config = yaml.safe_load(file)
+    ACCOUNTS = config['accounts']
 
 class ImportWindow:
     def __init__(self, master):

@@ -1,0 +1,34 @@
+Finance Manager Program
+
+This program is designed to help users manage their finances. It allows users to create, read, update, and delete transactions. The program also provides a summary of the user's transactions, including the total income, total expenses, and net income.
+
+The program is written in Python and uses a SQLite database to store the user's transactions. The program uses the `sqlite3` module to interact with the database.
+
+To run the program, simply run the `finance_manager.py` file. The program will prompt the user to enter a command to perform various actions, such as adding a transaction, viewing transactions, or generating a summary.
+
+The program provides the following commands:
+
+-   `add`: Add a new transaction
+-   `view`: View all transactions
+-   `summary`: Generate a summary of transactions
+-   `update`: Update a transaction
+-   `delete`: Delete a transaction
+-   `quit`: Exit the program
+
+Program windows:
+
+-   Main window: This window displays the main menu of the program, where users can enter commands to perform various actions.
+-   Add window: This window allows users to add a new transaction by entering the transaction type, amount, and description.
+-   View window: This window displays all transactions in a table format, including the transaction ID, type, amount, and description.
+-   Summary window: This window displays a summary of the user's transactions, including the total income, total expenses, and net income.
+-   Update window: This window allows users to update an existing transaction by entering the transaction ID and the new transaction details.
+-   Delete window: This window allows users to delete an existing transaction by entering the transaction ID.
+
+Main window buttons:
+
+-   Add: Opens the Add window to add a new transaction.
+-   View: Opens the View window to display all transactions.
+-   Summary: Opens the Summary window to show a summary of transactions.
+-   Update: Opens the Update window to update an existing transaction.
+-   Delete: Opens the Delete window to delete an existing transaction.
+-   Quit: Exits the program.

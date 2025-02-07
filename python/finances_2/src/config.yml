@@ -5,7 +5,7 @@ accounts:
         - Mastercard
     Chase:
         - Prime Visa
-        - Chase Checking
+        - Checking
     Citi:
         - Costco Visa
     Discover:
@@ -20,18 +20,39 @@ accounts:
         - Balance
 
 categories:
-    - Bills
+    - Books
+    - Clothing
+    - Debt
+    - Education
     - Entertainment
     - Food
-    - Groceries
+    - Games
     - Gas
-    - Health
+    - Groceries
+    - Gifts
+    - Housing
+    - Insurance
+    - Medical
     - Merchandise
-    - Travel
+    - Personal
+    - Plants
+    - Software
+    - Transportation
+    - Utilities
+    - Work
     - Zappies
     - Other
 
-bank_format:
+format:
+    header:
+        - Date
+        - Description
+        - Amount
+        - Category
+        - Faye
+        - Oliver
+        - Monthly
+        - Annual
     AMEX:
         - Date
         - Description
